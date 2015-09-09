@@ -79,7 +79,7 @@ resource "aws_route_table_association" "scaleio_association" {
 
 resource "aws_instance" "sds" {
     ami = "${var.ami_id}"
-    instance_type = "i2.xlarge"
+    instance_type = "${var.sds_instance_type}"
     key_name = "${var.key_name}"
     subnet_id = "${aws_subnet.scaleio_subnet.id}"
     count = "${var.sds_count}"
@@ -103,7 +103,7 @@ resource "aws_instance" "sds" {
 
 resource "aws_instance" "mdm" {
     ami = "${var.ami_id}"
-    instance_type = "m4.xlarge"
+    instance_type = "${var.mdm_instance_type}"
     key_name = "${var.key_name}"
     subnet_id = "${aws_subnet.scaleio_subnet.id}"
     count = 1

@@ -1,22 +1,29 @@
 
 #!/bin/bash
+echo "Installing Requirements"
 sudo yum -ytq install wget libaio numactl
+echo "Installing MDM"
 sudo rpm -i https://scaleio-source.s3.amazonaws.com/1.32/EMC-ScaleIO-mdm-1.32-403.2.el7.x86_64.rpm
 
+echo "Waiting for SDS list"
 while [ ! -f  /tmp/all_sds ];
 do
     echo "SDS File Not yet Found - Sleeping before continuining"
     sleep 10
 done
+echo "SDS list found"
 
-
+echo "Creating install file"
 cat <<'EOF' > /tmp/install.sh
 #!/bin/bash -i
 
+echo "Getting Private IP"
 MDM=`curl http://169.254.169.254/latest/meta-data/local-ipv4`
 
+echo "Accepting License"
 scli --mdm --add_primary_mdm --primary_mdm_ip $MDM --accept_license
 sleep 5
+echo "Setting Up Password to be password123!"
 scli --login --mdm_ip $MDM --username admin --password admin
 scli --mdm_ip $MDM --set_password --old_password admin --new_password password123!
 scli --login --mdm_ip $MDM --username admin --password password123!
