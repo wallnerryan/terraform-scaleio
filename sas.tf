@@ -143,7 +143,9 @@ resource "aws_instance" "mdm" {
 output "MDM_IP" {
   value = "${aws_instance.mdm.public_ip}"
 }
-
+output "MDM Password" {
+  value = "admin/password123!"
+}
 output "SDS_IP" {
   value = "${join(",",aws_instance.sds.*.private_ip)}"
 }
