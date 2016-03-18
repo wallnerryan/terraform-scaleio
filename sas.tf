@@ -118,7 +118,7 @@ resource "aws_instance" "mdm" {
 
     provisioner "file" {
         connection {
-            user = "ec2-user"
+            user = "centos"
             key_file = "${var.key_file}"
         }
         source = "mdm_install.sh"
@@ -127,7 +127,7 @@ resource "aws_instance" "mdm" {
 
     provisioner "remote-exec" {
       connection {
-          user = "ec2-user"
+          user = "centos"
           key_file = "${var.key_file}"
       }
       inline = [
